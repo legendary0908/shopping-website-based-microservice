@@ -1,0 +1,13 @@
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=$(USER_APP_DB_PWD)
+resources:
+    - mysql-deployment.yaml
+    - mongo-standalone.yml
+    - userapp.yaml
+    - payments.yml
+    - stock-service.yml
+    - product-catalog.yml
+    - orders-service.yml
+    - api-gateway.yml

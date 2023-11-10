@@ -1,0 +1,20 @@
+server:
+  port: 8082
+logging:
+  level:
+    root: INFO
+spring:
+  application:
+    name: ProductCatalog
+  data:
+    mongodb:
+      uri: ${PRODUCTS_DB_URI:mongodb://localhost:27017/products}
+---
+spring:
+  profiles: test
+  data:
+    mongodb:
+      host: "localhost"
+      port: 0
+      database: "products-catalog"
+

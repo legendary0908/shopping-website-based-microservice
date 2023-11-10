@@ -1,0 +1,29 @@
+server:
+  port: 8080
+logging:
+  level:
+    root: INFO
+    org.springframework.web: TRACE
+    org.springframework.security: INFO
+    org.springframework.cloud: INFO
+    com.netflix.eureka: INFO
+spring:
+  application:
+    name: UserApp
+  thymeleaf:
+    cache: false
+  output:
+    ansi:
+      enabled: ALWAYS
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health, info, beans, conditions, env, loggers, metrics, prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true

@@ -1,0 +1,12 @@
+server:
+  port: 8083
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud: INFO
+spring:
+  application:
+    name: payments
+  data:
+    mongodb:
+      uri: ${PAYMENTS_DB_URI:mongodb://localhost:27017/payments}

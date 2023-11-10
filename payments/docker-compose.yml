@@ -1,0 +1,21 @@
+version: "2.1"
+services:
+  mongodb:
+    image: mongo:4.0
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.stats().ok'
+      interval: 5s
+      timeout: 5s
+#  payments:
+#    build: .
+#    depends_on:
+#      mongodb:
+#        condition: service_healthy
+#    links:
+#      - mongodb
+#    environment:
+#      PAYMENTS_DB_URI: mongodb://mongodb:27017/payments
+#    ports:
+#      - 8083:8083

@@ -1,0 +1,58 @@
+version: "2.1"
+services:
+  userappdb:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ${USER_APP_DB_PWD}
+      MYSQL_DATABASE: "userapp"
+    ports:
+      - 5406:3306
+    healthcheck:
+      test: "/etc/init.d/mysql status"
+      interval: 1s
+      retries: 120
+  mongodb:
+    image: mongo:3.2
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: echo 'db.stats().ok'
+      interval: 5s
+      timeout: 5s
+  userapp:
+    build: ./users-app/
+    depends_on:
+      userappdb:
+        condition: service_healthy
+    links:
+      - userappdb
+    ports:
+      - 8081:8080
+    environment:
+      DB_PASSWORD: ${USER_APP_DB_PWD}
+      DB_USERNAME: "root"
+      DB_HOST: userappdb
+      DB_PORT: 3306
+  productcatalog:
+      build: ./product-catalog/
+      depends_on:
+        mongodb:
+          condition: service_healthy
+      links:
+        - mongodb
+        - userapp
+      environment:
+        PRODUCTS_DB_URI: mongodb://localhost:27017/products
+      ports:
+        - 8082:8082
+  payments:
+    build: ./payments/
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    links:
+      - mongodb
+    environment:
+      PAYMENTS_DB_URI: mongodb://mongodb:27017/payments
+    ports:
+      - 8083:8083
